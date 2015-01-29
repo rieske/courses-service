@@ -1,5 +1,7 @@
 #courses-service
 
+[![Build Status](https://travis-ci.org/rieske/courses-service.png?branch=master)](https://travis-ci.org/rieske/courses-service)
+
 RESTful service for listing courses and registered course participants
 
 ##Building
