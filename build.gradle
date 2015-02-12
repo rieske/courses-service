@@ -1,12 +1,13 @@
 buildscript {
     ext {
-        springBootVersion = '1.2.0.RELEASE'
+        springBootVersion = '1.2.1.RELEASE'
     }
     repositories {
         mavenCentral()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.1'
     }
 }
 
@@ -14,12 +15,21 @@ apply plugin: 'java'
 apply plugin: 'spring-boot'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 repositories {
     mavenCentral()
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
 }
 
 sourceSets {
@@ -51,7 +61,7 @@ dependencies {
     compile "com.google.guava:guava:18.0"
     compile "org.flywaydb:flyway-core"
     compile "org.apache.commons:commons-csv:1.1"
-    
+
     testCompile "org.springframework.boot:spring-boot-starter-test"
     testCompile "com.jayway.restassured:rest-assured:2.3.4"
     testCompile "junit:junit:4.+"
@@ -59,12 +69,12 @@ dependencies {
     testCompile "org.mockito:mockito-core:1.9.5"
     testCompile "org.skyscreamer:jsonassert:1.2.3"
     testRuntime "com.h2database:h2"
-        
+
     componentTestCompile sourceSets.main.output
     componentTestCompile configurations.testCompile
     componentTestCompile sourceSets.test.output
     componentTestRuntime configurations.testRuntime
-    
+
 }
 
 run {
