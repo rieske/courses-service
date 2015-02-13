@@ -44,6 +44,13 @@ task componentTest(type: Test) {
     classpath = sourceSets.componentTest.runtimeClasspath
 }
 
+componentTest {
+    jacoco {
+        append = true
+        destinationFile = file("$buildDir/jacoco/test.exec")
+    }
+}
+
 tasks.withType(FindBugs) {
     reports {
         xml.enabled = false

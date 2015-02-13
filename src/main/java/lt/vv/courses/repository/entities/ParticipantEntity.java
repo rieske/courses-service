@@ -27,6 +27,9 @@ public class ParticipantEntity {
 	@Column(nullable = false)
 	private long courseId;
 
+    protected ParticipantEntity() {
+    }
+
 	public long getId() {
 		return id;
 	}
