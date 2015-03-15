@@ -2,6 +2,7 @@ package lt.vv.courses.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import lt.vv.courses.api.model.Course;
 import lt.vv.courses.api.model.CourseNotFound;
@@ -9,7 +10,6 @@ import lt.vv.courses.api.model.Participant;
 import lt.vv.courses.repository.CourseRepository;
 import lt.vv.courses.repository.ParticipantRepository;
 import lt.vv.courses.repository.entities.CourseEntity;
-import lt.vv.courses.repository.entities.ParticipantEntity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -42,22 +42,15 @@ public class CoursesService {
 			courseEntitiesMatchingCriteria = courseRepository.findAll(new Sort(Direction.ASC, "name"));
 		}
 
-		List<Course> courses = Lists.newArrayList();
-		for (CourseEntity entity : courseEntitiesMatchingCriteria) {
-			courses.add(mapper.fromEntity(entity));
-		}
-		return courses;
+		return courseEntitiesMatchingCriteria.stream()
+				.map(mapper::fromEntity)
+				.collect(Collectors.toList());
 	}
 
 	public List<Participant> findCourseParticipants(long courseId) throws CourseNotFound {
-		Optional<CourseEntity> course = courseRepository.findById(courseId);
-		if (!course.isPresent()) {
-			throw new CourseNotFound();
-		}
-		List<Participant> courseParticipants = Lists.newArrayList();
-		for (ParticipantEntity entity : participantRepository.findByCourseId(courseId)) {
-			courseParticipants.add(mapper.fromEntity(entity));
-		}
-		return courseParticipants;
+		courseRepository.findById(courseId).orElseThrow(CourseNotFound::new);
+		return participantRepository.findByCourseId(courseId).stream()
+				.map(mapper::fromEntity)
+				.collect(Collectors.toList());
 	}
 }
