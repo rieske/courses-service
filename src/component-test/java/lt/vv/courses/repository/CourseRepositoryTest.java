@@ -7,6 +7,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import lt.vv.courses.CoursesApplication;
 import lt.vv.courses.repository.entities.CourseEntity;
@@ -18,8 +19,6 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.google.common.base.Optional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = CoursesApplication.class)
@@ -34,7 +33,7 @@ public class CourseRepositoryTest {
 
 		assertThat(course.isPresent(), is(false));
 	}
-	
+
 	@Test
 	public void returnsOptionalCourse() {
 		Optional<CourseEntity> course = courseRepository.findById(1);

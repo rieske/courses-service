@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
+import java.util.Optional;
 
 import lt.vv.courses.api.model.Course;
 import lt.vv.courses.api.model.CourseNotFound;
@@ -27,7 +28,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -55,7 +55,7 @@ public class CoursesResourceTest {
 
 	@Test
 	public void listsAllCoursesWihoutQueryParameters() throws Exception {
-		when(coursesService.findCourses(Optional.<Long> absent(), Optional.<Long> absent()))
+		when(coursesService.findCourses(Optional.empty(), Optional.empty()))
 				.thenReturn(Lists.newArrayList(new Course(1, "name", 1, 2, "location")));
 
 		// @formatter:off
@@ -65,13 +65,13 @@ public class CoursesResourceTest {
 				.andExpect(content().json("[{\"id\":1,\"courseName\":\"name\",\"startTime\":1,\"endTime\":2,\"location\":\"location\"}]"));
 		// @formatter:on
 
-		verify(coursesService).findCourses(Optional.<Long> absent(), Optional.<Long> absent());
+		verify(coursesService).findCourses(Optional.empty(), Optional.empty());
 		verifyNoMoreInteractions(coursesService);
 	}
 
 	@Test
 	public void listsCoursesAfterGivenFromTime() throws Exception {
-		when(coursesService.findCourses(Optional.of(10L), Optional.<Long> absent()))
+		when(coursesService.findCourses(Optional.of(10L), Optional.empty()))
 				.thenReturn(Lists.newArrayList(new Course(1, "name", 1, 2, "location")));
 
 		// @formatter:off
@@ -81,13 +81,13 @@ public class CoursesResourceTest {
 				.andExpect(content().json("[{\"id\":1,\"courseName\":\"name\",\"startTime\":1,\"endTime\":2,\"location\":\"location\"}]"));
 		// @formatter:on
 
-		verify(coursesService).findCourses(Optional.of(10L), Optional.<Long> absent());
+		verify(coursesService).findCourses(Optional.of(10L), Optional.empty());
 		verifyNoMoreInteractions(coursesService);
 	}
 
 	@Test
 	public void listsCoursesBeforeGivenEndTime() throws Exception {
-		when(coursesService.findCourses(Optional.<Long> absent(), Optional.of(20L)))
+		when(coursesService.findCourses(Optional.empty(), Optional.of(20L)))
 				.thenReturn(Lists.newArrayList(new Course(1, "name", 1, 2, "location")));
 
 		// @formatter:off
@@ -97,7 +97,7 @@ public class CoursesResourceTest {
 				.andExpect(content().json("[{\"id\":1,\"courseName\":\"name\",\"startTime\":1,\"endTime\":2,\"location\":\"location\"}]"));
 		// @formatter:on
 
-		verify(coursesService).findCourses(Optional.<Long> absent(), Optional.of(20L));
+		verify(coursesService).findCourses(Optional.empty(), Optional.of(20L));
 		verifyNoMoreInteractions(coursesService);
 	}
 

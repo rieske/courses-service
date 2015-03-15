@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.Optional;
 
 import lt.vv.courses.api.model.Course;
 import lt.vv.courses.api.model.CourseNotFound;
@@ -22,7 +23,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -51,7 +51,7 @@ public class CoursesServiceTest {
 		Course secondExpectedCourse = mock(Course.class);
 		when(mapper.fromEntity(secondCourseEntity)).thenReturn(secondExpectedCourse);
 
-		List<Course> courses = courseService.findCourses(Optional.<Long> absent(), Optional.<Long> absent());
+		List<Course> courses = courseService.findCourses(Optional.empty(), Optional.empty());
 
 		assertThat(courses).hasSize(2);
 		assertThat(courses.get(0)).isSameAs(firstExpectedCourse);
@@ -69,7 +69,7 @@ public class CoursesServiceTest {
 		Course secondExpectedCourse = mock(Course.class);
 		when(mapper.fromEntity(secondCourseEntity)).thenReturn(secondExpectedCourse);
 
-		List<Course> courses = courseService.findCourses(Optional.of(100L), Optional.<Long> absent());
+		List<Course> courses = courseService.findCourses(Optional.of(100L), Optional.empty());
 
 		assertThat(courses).hasSize(2);
 		assertThat(courses.get(0)).isSameAs(firstExpectedCourse);
@@ -87,7 +87,7 @@ public class CoursesServiceTest {
 		Course secondExpectedCourse = mock(Course.class);
 		when(mapper.fromEntity(secondCourseEntity)).thenReturn(secondExpectedCourse);
 
-		List<Course> courses = courseService.findCourses(Optional.<Long> absent(), Optional.of(200L));
+		List<Course> courses = courseService.findCourses(Optional.empty(), Optional.of(200L));
 
 		assertThat(courses).hasSize(2);
 		assertThat(courses.get(0)).isSameAs(firstExpectedCourse);
@@ -114,7 +114,7 @@ public class CoursesServiceTest {
 
 	@Test(expected = CourseNotFound.class)
 	public void throwsCourseNotFoundForNonexistentCourseParticipantSearch() throws CourseNotFound {
-		when(courseRepository.findById(999L)).thenReturn(Optional.<CourseEntity> absent());
+		when(courseRepository.findById(999L)).thenReturn(Optional.empty());
 
 		courseService.findCourseParticipants(999L);
 	}

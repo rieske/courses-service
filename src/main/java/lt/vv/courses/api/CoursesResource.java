@@ -1,13 +1,14 @@
 package lt.vv.courses.api;
 
 import java.util.List;
+import java.util.Optional;
 
 import lt.vv.courses.api.model.Course;
 import lt.vv.courses.api.model.CourseNotFound;
+import lt.vv.courses.api.model.CsvRecord;
 import lt.vv.courses.api.model.Participant;
 import lt.vv.courses.services.CoursesService;
 import lt.vv.courses.services.CsvMapper;
-import lt.vv.courses.api.model.CsvRecord;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.google.common.base.Optional;
 
 @RestController
 @RequestMapping("courses")
@@ -39,7 +38,7 @@ public class CoursesResource {
 			@RequestParam(required = false) Long fromTime,
 			@RequestParam(required = false) Long toTime)
 	{
-		return coursesService.findCourses(Optional.fromNullable(fromTime), Optional.fromNullable(toTime));
+		return coursesService.findCourses(Optional.ofNullable(fromTime), Optional.ofNullable(toTime));
 	}
 
 	@RequestMapping(

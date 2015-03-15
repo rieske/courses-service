@@ -1,13 +1,12 @@
 package lt.vv.courses.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import lt.vv.courses.repository.entities.CourseEntity;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.Repository;
-
-import com.google.common.base.Optional;
 
 public interface CourseRepository extends Repository<CourseEntity, Long> {
 

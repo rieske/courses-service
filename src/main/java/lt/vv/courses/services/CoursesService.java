@@ -1,6 +1,7 @@
 package lt.vv.courses.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import lt.vv.courses.api.model.Course;
 import lt.vv.courses.api.model.CourseNotFound;
@@ -15,7 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 
 @Service
