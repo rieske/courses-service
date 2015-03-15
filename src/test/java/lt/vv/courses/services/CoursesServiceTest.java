@@ -1,8 +1,6 @@
 package lt.vv.courses.services;
 
-import static org.hamcrest.CoreMatchers.sameInstance;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -55,9 +53,9 @@ public class CoursesServiceTest {
 
 		List<Course> courses = courseService.findCourses(Optional.<Long> absent(), Optional.<Long> absent());
 
-		assertThat(courses, hasSize(2));
-		assertThat(courses.get(0), sameInstance(firstExpectedCourse));
-		assertThat(courses.get(1), sameInstance(secondExpectedCourse));
+		assertThat(courses).hasSize(2);
+		assertThat(courses.get(0)).isSameAs(firstExpectedCourse);
+		assertThat(courses.get(1)).isSameAs(secondExpectedCourse);
 	}
 
 	@Test
@@ -73,9 +71,9 @@ public class CoursesServiceTest {
 
 		List<Course> courses = courseService.findCourses(Optional.of(100L), Optional.<Long> absent());
 
-		assertThat(courses, hasSize(2));
-		assertThat(courses.get(0), sameInstance(firstExpectedCourse));
-		assertThat(courses.get(1), sameInstance(secondExpectedCourse));
+		assertThat(courses).hasSize(2);
+		assertThat(courses.get(0)).isSameAs(firstExpectedCourse);
+		assertThat(courses.get(1)).isSameAs(secondExpectedCourse);
 	}
 
 	@Test
@@ -91,9 +89,9 @@ public class CoursesServiceTest {
 
 		List<Course> courses = courseService.findCourses(Optional.<Long> absent(), Optional.of(200L));
 
-		assertThat(courses, hasSize(2));
-		assertThat(courses.get(0), sameInstance(firstExpectedCourse));
-		assertThat(courses.get(1), sameInstance(secondExpectedCourse));
+		assertThat(courses).hasSize(2);
+		assertThat(courses.get(0)).isSameAs(firstExpectedCourse);
+		assertThat(courses.get(1)).isSameAs(secondExpectedCourse);
 	}
 
 	@Test
@@ -109,9 +107,9 @@ public class CoursesServiceTest {
 
 		List<Course> courses = courseService.findCourses(Optional.of(100L), Optional.of(200L));
 
-		assertThat(courses, hasSize(2));
-		assertThat(courses.get(0), sameInstance(firstExpectedCourse));
-		assertThat(courses.get(1), sameInstance(secondExpectedCourse));
+		assertThat(courses).hasSize(2);
+		assertThat(courses.get(0)).isSameAs(firstExpectedCourse);
+		assertThat(courses.get(1)).isSameAs(secondExpectedCourse);
 	}
 
 	@Test(expected = CourseNotFound.class)
@@ -135,8 +133,8 @@ public class CoursesServiceTest {
 
 		List<Participant> participants = courseService.findCourseParticipants(123L);
 
-		assertThat(participants, hasSize(2));
-		assertThat(participants.get(0), sameInstance(firstExpectedParticipant));
-		assertThat(participants.get(1), sameInstance(secondExpectedParticipant));
+		assertThat(participants).hasSize(2);
+		assertThat(participants.get(0)).isSameAs(firstExpectedParticipant);
+		assertThat(participants.get(1)).isSameAs(secondExpectedParticipant);
 	}
 }

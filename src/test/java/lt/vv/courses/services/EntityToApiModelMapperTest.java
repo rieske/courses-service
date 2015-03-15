@@ -1,7 +1,6 @@
 package lt.vv.courses.services;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -30,7 +29,7 @@ public class EntityToApiModelMapperTest {
 
 		Course course = mapper.fromEntity(entity);
 
-		assertThat(EqualsBuilder.reflectionEquals(course, new Course(123, "name", 111, 222, "location")), is(true));
+		assertThat(EqualsBuilder.reflectionEquals(course, new Course(123, "name", 111, 222, "location"))).isTrue();
 	}
 
 	@Test
@@ -42,6 +41,6 @@ public class EntityToApiModelMapperTest {
 
 		Participant participant = mapper.fromEntity(entity);
 
-		assertThat(EqualsBuilder.reflectionEquals(participant, new Participant("name", "surname", 100)), is(true));
+		assertThat(EqualsBuilder.reflectionEquals(participant, new Participant("name", "surname", 100))).isTrue();
 	}
 }

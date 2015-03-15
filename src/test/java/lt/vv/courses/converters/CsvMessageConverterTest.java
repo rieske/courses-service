@@ -1,10 +1,6 @@
 package lt.vv.courses.converters;
 
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 
@@ -23,12 +19,12 @@ public class CsvMessageConverterTest {
 
 	@Test
 	public void supportsCsvRecords() {
-		assertThat(converter.supports(CsvRecord.class), is(true));
+		assertThat(converter.supports(CsvRecord.class)).isTrue();
 	}
 
 	@Test
 	public void supportsCsvMediaType() {
-		assertThat(converter.getSupportedMediaTypes(), contains(CsvMessageConverter.CSV_MEDIA_TYPE));
+		assertThat(converter.getSupportedMediaTypes()).containsExactly(CsvMessageConverter.CSV_MEDIA_TYPE);
 	}
 
 	@Test
@@ -38,9 +34,9 @@ public class CsvMessageConverterTest {
 
 		converter.write(csvRecord, CsvMessageConverter.CSV_MEDIA_TYPE, outputMessage);
 
-		assertThat(outputMessage.getHeaders().getContentType(), equalTo(CsvMessageConverter.CSV_MEDIA_TYPE));
-		assertThat(outputMessage.getHeaders().get("Content-Disposition"), hasSize(1));
-		assertThat(outputMessage.getHeaders().getFirst("Content-Disposition"), equalTo("attachment; filename=\"csvFileName.csv\""));
-		assertThat(outputMessage.getBody().toString(), equalTo("record1\r\nrecord2\r\nrecord3\r\n"));
+		assertThat(outputMessage.getHeaders().getContentType()).isEqualTo(CsvMessageConverter.CSV_MEDIA_TYPE);
+		assertThat(outputMessage.getHeaders().get("Content-Disposition")).hasSize(1);
+		assertThat(outputMessage.getHeaders().getFirst("Content-Disposition")).isEqualTo("attachment; filename=\"csvFileName.csv\"");
+		assertThat(outputMessage.getBody().toString()).isEqualTo("record1\r\nrecord2\r\nrecord3\r\n");
 	}
 }

@@ -1,7 +1,6 @@
 package lt.vv.courses.api.model;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -16,7 +15,7 @@ public class ParticipantSerializationTest {
 	public void serializesParticipantToJson() throws JsonProcessingException {
 		String participantJson = MAPPER.writeValueAsString(new Participant("name", "surname", 999));
 
-		assertThat(participantJson, equalTo("{\"firstName\":\"name\",\"lastName\":\"surname\",\"dateOfBirth\":999}"));
+		assertThat(participantJson).isEqualTo("{\"firstName\":\"name\",\"lastName\":\"surname\",\"dateOfBirth\":999}");
 	}
 
 }
