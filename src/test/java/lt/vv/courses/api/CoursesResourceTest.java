@@ -1,5 +1,7 @@
 package lt.vv.courses.api;
 
+import static com.jayway.restassured.module.mockmvc.RestAssuredMockMvc.given;
+import static com.jayway.restassured.module.mockmvc.RestAssuredMockMvc.when;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -19,6 +21,7 @@ import lt.vv.courses.converters.CsvMessageConverter;
 import lt.vv.courses.services.CoursesService;
 import lt.vv.courses.services.CsvMapper;
 
+import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +32,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.google.common.collect.Lists;
+import com.jayway.restassured.module.mockmvc.RestAssuredMockMvc;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CoursesResourceTest {
@@ -42,15 +46,10 @@ public class CoursesResourceTest {
 	@InjectMocks
 	CoursesResource coursesResource;
 
-	MockMvc mvc;
-
 	@Before
 	public void setUpMockMvc() {
-		// @formatter:off
-		mvc = MockMvcBuilders
-					.standaloneSetup(coursesResource)
-					.build();
-		// @formatter:on
+		RestAssuredMockMvc.standaloneSetup(coursesResource);
+		RestAssuredMockMvc.enableLoggingOfRequestAndResponseIfValidationFails();
 	}
 
 	@Test
@@ -59,10 +58,11 @@ public class CoursesResourceTest {
 				.thenReturn(Lists.newArrayList(new Course(1, "name", 1, 2, "location")));
 
 		// @formatter:off
-		mvc.perform(
-				get("/courses"))
-				.andExpect(status().isOk())
-				.andExpect(content().json("[{\"id\":1,\"courseName\":\"name\",\"startTime\":1,\"endTime\":2,\"location\":\"location\"}]"));
+		when().
+			get("/courses").
+		then().
+			statusCode(HttpStatus.SC_OK).
+			expect(content().json("[{\"id\":1,\"courseName\":\"name\",\"startTime\":1,\"endTime\":2,\"location\":\"location\"}]"));
 		// @formatter:on
 
 		verify(coursesService).findCourses(Optional.empty(), Optional.empty());
@@ -75,10 +75,13 @@ public class CoursesResourceTest {
 				.thenReturn(Lists.newArrayList(new Course(1, "name", 1, 2, "location")));
 
 		// @formatter:off
-		mvc.perform(
-				get("/courses").param("fromTime", "10"))
-				.andExpect(status().isOk())
-				.andExpect(content().json("[{\"id\":1,\"courseName\":\"name\",\"startTime\":1,\"endTime\":2,\"location\":\"location\"}]"));
+		given().
+			param("fromTime", "10").
+		when().
+			get("/courses").
+		then().
+			statusCode(HttpStatus.SC_OK).
+			expect(content().json("[{\"id\":1,\"courseName\":\"name\",\"startTime\":1,\"endTime\":2,\"location\":\"location\"}]"));
 		// @formatter:on
 
 		verify(coursesService).findCourses(Optional.of(10L), Optional.empty());
@@ -91,10 +94,13 @@ public class CoursesResourceTest {
 				.thenReturn(Lists.newArrayList(new Course(1, "name", 1, 2, "location")));
 
 		// @formatter:off
-		mvc.perform(
-				get("/courses").param("toTime", "20"))
-				.andExpect(status().isOk())
-				.andExpect(content().json("[{\"id\":1,\"courseName\":\"name\",\"startTime\":1,\"endTime\":2,\"location\":\"location\"}]"));
+		given().
+			param("toTime", "20").
+		when().
+			get("/courses").
+		then().
+			statusCode(HttpStatus.SC_OK).
+			expect(content().json("[{\"id\":1,\"courseName\":\"name\",\"startTime\":1,\"endTime\":2,\"location\":\"location\"}]"));
 		// @formatter:on
 
 		verify(coursesService).findCourses(Optional.empty(), Optional.of(20L));
@@ -107,10 +113,14 @@ public class CoursesResourceTest {
 				.thenReturn(Lists.newArrayList(new Course(1, "name", 1, 2, "location")));
 
 		// @formatter:off
-		mvc.perform(
-				get("/courses").param("fromTime", "10").param("toTime", "20"))
-				.andExpect(status().isOk())
-				.andExpect(content().json("[{\"id\":1,\"courseName\":\"name\",\"startTime\":1,\"endTime\":2,\"location\":\"location\"}]"));
+		given().
+			param("fromTime", "10").
+			param("toTime", "20").
+		when().
+			get("/courses").
+		then().
+			statusCode(HttpStatus.SC_OK).
+			expect(content().json("[{\"id\":1,\"courseName\":\"name\",\"startTime\":1,\"endTime\":2,\"location\":\"location\"}]"));
 		// @formatter:on
 
 		verify(coursesService).findCourses(Optional.of(10L), Optional.of(20L));
@@ -122,9 +132,10 @@ public class CoursesResourceTest {
 		when(coursesService.findCourseParticipants(999L)).thenThrow(new CourseNotFound());
 
 		// @formatter:off
-		mvc.perform(
-				get("/courses/999/participants"))
-				.andExpect(status().isNotFound());
+		when().
+			get("/courses/999/participants").
+		then().
+			statusCode(HttpStatus.SC_NOT_FOUND);
 		// @formatter:on
 	}
 
@@ -133,10 +144,11 @@ public class CoursesResourceTest {
 		when(coursesService.findCourseParticipants(123L)).thenReturn(Lists.newArrayList(new Participant("name", "surname", 999)));
 
 		// @formatter:off
-		mvc.perform(
-				get("/courses/123/participants"))
-				.andExpect(status().isOk())
-				.andExpect(content().json("[{\"firstName\":\"name\",\"lastName\":\"surname\",\"dateOfBirth\":999,}]"));
+		when().
+			get("/courses/123/participants").
+		then().
+			statusCode(HttpStatus.SC_OK).
+			expect(content().json("[{\"firstName\":\"name\",\"lastName\":\"surname\",\"dateOfBirth\":999,}]"));
 		// @formatter:on
 	}
 
@@ -144,7 +156,7 @@ public class CoursesResourceTest {
 	public void returnsNotFoundWhenRequestingParticipantsForNonexistentCourseInCsv() throws Exception {
 		when(coursesService.findCourseParticipants(999L)).thenThrow(new CourseNotFound());
 
-		mvc = MockMvcBuilders
+		MockMvc mvc = MockMvcBuilders
 				.standaloneSetup(coursesResource).setMessageConverters(new CsvMessageConverter())
 				.build();
 
@@ -161,7 +173,7 @@ public class CoursesResourceTest {
 		when(coursesService.findCourseParticipants(123L)).thenReturn(participants);
 		when(csvMapper.toCsv(participants)).thenReturn(Lists.newArrayList("aaa", "bbb"));
 
-		mvc = MockMvcBuilders
+		MockMvc mvc = MockMvcBuilders
 				.standaloneSetup(coursesResource).setMessageConverters(new CsvMessageConverter())
 				.build();
 
