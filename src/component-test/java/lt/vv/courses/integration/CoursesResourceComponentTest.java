@@ -1,4 +1,4 @@
-package lt.vv.courses.api;
+package lt.vv.courses.integration;
 
 import static com.jayway.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.equalTo;
@@ -56,8 +56,7 @@ public class CoursesResourceComponentTest {
 			.statusCode(HttpStatus.OK.value())
 			.body("$", hasSize(1))
 			.body("[0].id", notNullValue())
-			.body("[0].courseName", equalTo("SE course"))
-			.body("[0].startTime", equalTo("2015-01-05T04:00+0000"));
+			.body("[0].courseName", equalTo("SE course"));
 		// @formatter:on
 	}
 
@@ -71,7 +70,6 @@ public class CoursesResourceComponentTest {
 			.body("$", hasSize(2))
 			.body("[0].id", notNullValue())
 			.body("[0].courseName", equalTo("SE course"))
-			.body("[0].endTime", equalTo("2015-01-05T05:00+0000"))
 			.body("[1].id", notNullValue())
 			.body("[1].courseName", equalTo("EN course"));
 		// @formatter:on
