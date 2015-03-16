@@ -1,6 +1,6 @@
 #courses-service
 
-[![Build Status](https://travis-ci.org/rieske/courses-service.png?branch=master)](https://travis-ci.org/rieske/courses-service) [![Build Status](https://drone.io/github.com/rieske/courses-service/status.png)](https://drone.io/github.com/rieske/courses-service/latest) [![Coverage Status](https://coveralls.io/repos/rieske/courses-service/badge.svg?branch=master)](https://coveralls.io/r/rieske/courses-service?branch=master)
+[![Build Status](https://travis-ci.org/rieske/courses-service.png?branch=master)](https://travis-ci.org/rieske/courses-service) [![Build Status](https://drone.io/github.com/rieske/courses-service/status.png)](https://drone.io/github.com/rieske/courses-service/latest) [![Coverage Status](https://coveralls.io/repos/rieske/courses-service/badge.svg?branch=master)](https://coveralls.io/r/rieske/courses-service?branch=master) [![Dependency Status](https://www.versioneye.com/user/projects/5506935b66e561507b00013e/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5506935b66e561507b00013e)
 
 RESTful service for listing courses and registered course participants
 
