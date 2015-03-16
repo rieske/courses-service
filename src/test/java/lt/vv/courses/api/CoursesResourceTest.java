@@ -11,6 +11,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +41,8 @@ import com.jayway.restassured.module.mockmvc.RestAssuredMockMvc;
 @RunWith(MockitoJUnitRunner.class)
 public class CoursesResourceTest {
 
+	private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
+
 	@Mock
 	CoursesService coursesService;
 
@@ -53,16 +59,21 @@ public class CoursesResourceTest {
 	}
 
 	@Test
-	public void listsAllCoursesWihoutQueryParameters() throws Exception {
+	public void listsAllCoursesWihoutQueryParameters() throws ParseException {
 		when(coursesService.findCourses(Optional.empty(), Optional.empty()))
-				.thenReturn(Lists.newArrayList(new Course(1, "name", 1, 2, "location")));
+				.thenReturn(Lists.newArrayList(new Course(
+						1,
+						"name",
+						dateFormat.parse("2015-01-03T10:15+0000"),
+						dateFormat.parse("2015-01-03T10:18+0000"),
+						"location")));
 
 		// @formatter:off
 		when().
 			get("/courses").
 		then().
 			statusCode(HttpStatus.SC_OK).
-			expect(content().json("[{\"id\":1,\"courseName\":\"name\",\"startTime\":1,\"endTime\":2,\"location\":\"location\"}]"));
+			expect(content().json("[{\"id\":1,\"courseName\":\"name\",\"startTime\":\"2015-01-03T10:15+0000\",\"endTime\":\"2015-01-03T10:18+0000\",\"location\":\"location\"}]"));
 		// @formatter:on
 
 		verify(coursesService).findCourses(Optional.empty(), Optional.empty());
@@ -70,60 +81,78 @@ public class CoursesResourceTest {
 	}
 
 	@Test
-	public void listsCoursesAfterGivenFromTime() throws Exception {
-		when(coursesService.findCourses(Optional.of(10L), Optional.empty()))
-				.thenReturn(Lists.newArrayList(new Course(1, "name", 1, 2, "location")));
+	public void listsCoursesAfterGivenFromTime() throws ParseException {
+		when(coursesService.findCourses(Optional.of(LocalDateTime.parse("2015-01-03T10:15")), Optional.empty()))
+				.thenReturn(Lists.newArrayList(new Course(
+						1,
+						"name",
+						dateFormat.parse("2015-01-03T10:15+0000"),
+						dateFormat.parse("2015-01-03T10:18+0000"),
+						"location")));
 
 		// @formatter:off
 		given().
-			param("fromTime", "10").
+			param("fromTime", "2015-01-03T10:15").
 		when().
 			get("/courses").
 		then().
 			statusCode(HttpStatus.SC_OK).
-			expect(content().json("[{\"id\":1,\"courseName\":\"name\",\"startTime\":1,\"endTime\":2,\"location\":\"location\"}]"));
+			expect(content().json("[{\"id\":1,\"courseName\":\"name\",\"startTime\":\"2015-01-03T10:15+0000\",\"endTime\":\"2015-01-03T10:18+0000\",\"location\":\"location\"}]"));
 		// @formatter:on
 
-		verify(coursesService).findCourses(Optional.of(10L), Optional.empty());
+		verify(coursesService).findCourses(Optional.of(LocalDateTime.parse("2015-01-03T10:15")), Optional.empty());
 		verifyNoMoreInteractions(coursesService);
 	}
 
 	@Test
-	public void listsCoursesBeforeGivenEndTime() throws Exception {
-		when(coursesService.findCourses(Optional.empty(), Optional.of(20L)))
-				.thenReturn(Lists.newArrayList(new Course(1, "name", 1, 2, "location")));
+	public void listsCoursesBeforeGivenEndTime() throws ParseException {
+		when(coursesService.findCourses(Optional.empty(), Optional.of(LocalDateTime.parse("2015-01-03T10:18"))))
+				.thenReturn(Lists.newArrayList(new Course(
+						1,
+						"name",
+						dateFormat.parse("2015-01-03T10:15+0000"),
+						dateFormat.parse("2015-01-03T10:18+0000"),
+						"location")));
 
 		// @formatter:off
 		given().
-			param("toTime", "20").
+			param("toTime", "2015-01-03T10:18").
 		when().
 			get("/courses").
 		then().
 			statusCode(HttpStatus.SC_OK).
-			expect(content().json("[{\"id\":1,\"courseName\":\"name\",\"startTime\":1,\"endTime\":2,\"location\":\"location\"}]"));
+			expect(content().json("[{\"id\":1,\"courseName\":\"name\",\"startTime\":\"2015-01-03T10:15+0000\",\"endTime\":\"2015-01-03T10:18+0000\",\"location\":\"location\"}]"));
 		// @formatter:on
 
-		verify(coursesService).findCourses(Optional.empty(), Optional.of(20L));
+		verify(coursesService).findCourses(Optional.empty(), Optional.of(LocalDateTime.parse("2015-01-03T10:18")));
 		verifyNoMoreInteractions(coursesService);
 	}
 
 	@Test
-	public void listsCoursesInGivenTimeframe() throws Exception {
-		when(coursesService.findCourses(Optional.of(10L), Optional.of(20L)))
-				.thenReturn(Lists.newArrayList(new Course(1, "name", 1, 2, "location")));
+	public void listsCoursesInGivenTimeframe() throws ParseException {
+		when(
+				coursesService.findCourses(
+						Optional.of(LocalDateTime.parse("2015-01-03T00:00:00")),
+						Optional.of(LocalDateTime.parse("2015-01-05T00:00:00"))))
+				.thenReturn(Lists.newArrayList(new Course(
+						1,
+						"name",
+						dateFormat.parse("2015-01-03T10:15+0000"),
+						dateFormat.parse("2015-01-03T10:18+0000"),
+						"location")));
 
 		// @formatter:off
 		given().
-			param("fromTime", "10").
-			param("toTime", "20").
+			param("fromTime", "2015-01-03T00:00").
+			param("toTime", "2015-01-05T00:00").
 		when().
 			get("/courses").
 		then().
 			statusCode(HttpStatus.SC_OK).
-			expect(content().json("[{\"id\":1,\"courseName\":\"name\",\"startTime\":1,\"endTime\":2,\"location\":\"location\"}]"));
+			expect(content().json("[{\"id\":1,\"courseName\":\"name\",\"startTime\":\"2015-01-03T10:15+0000\",\"endTime\":\"2015-01-03T10:18+0000\",\"location\":\"location\"}]"));
 		// @formatter:on
 
-		verify(coursesService).findCourses(Optional.of(10L), Optional.of(20L));
+		verify(coursesService).findCourses(Optional.of(LocalDateTime.parse("2015-01-03T00:00")), Optional.of(LocalDateTime.parse("2015-01-05T00:00")));
 		verifyNoMoreInteractions(coursesService);
 	}
 

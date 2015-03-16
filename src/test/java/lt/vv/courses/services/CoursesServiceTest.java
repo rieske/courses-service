@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,14 +64,14 @@ public class CoursesServiceTest {
 	public void findsCoursesAfterGivenStartTime() {
 		CourseEntity firstCourseEntity = mock(CourseEntity.class);
 		CourseEntity secondCourseEntity = mock(CourseEntity.class);
-		when(courseRepository.findByStartTimeAfterOrderByStartTimeAsc(100L)).thenReturn(
+		when(courseRepository.findByStartTimeAfterOrderByStartTimeAsc(Timestamp.valueOf(LocalDateTime.parse("2015-01-01T00:00:00")))).thenReturn(
 				Lists.newArrayList(firstCourseEntity, secondCourseEntity));
 		Course firstExpectedCourse = mock(Course.class);
 		when(mapper.fromEntity(firstCourseEntity)).thenReturn(firstExpectedCourse);
 		Course secondExpectedCourse = mock(Course.class);
 		when(mapper.fromEntity(secondCourseEntity)).thenReturn(secondExpectedCourse);
 
-		List<Course> courses = courseService.findCourses(Optional.of(100L), Optional.empty());
+		List<Course> courses = courseService.findCourses(Optional.of(LocalDateTime.parse("2015-01-01T00:00:00")), Optional.empty());
 
 		assertThat(courses).hasSize(2);
 		assertThat(courses.get(0)).isSameAs(firstExpectedCourse);
@@ -80,14 +82,14 @@ public class CoursesServiceTest {
 	public void findsCoursesBeforeGivenEndTime() {
 		CourseEntity firstCourseEntity = mock(CourseEntity.class);
 		CourseEntity secondCourseEntity = mock(CourseEntity.class);
-		when(courseRepository.findByEndTimeBeforeOrderByEndTimeDesc(200L)).thenReturn(
+		when(courseRepository.findByEndTimeBeforeOrderByEndTimeDesc(Timestamp.valueOf(LocalDateTime.parse("2015-01-01T00:00:00")))).thenReturn(
 				Lists.newArrayList(firstCourseEntity, secondCourseEntity));
 		Course firstExpectedCourse = mock(Course.class);
 		when(mapper.fromEntity(firstCourseEntity)).thenReturn(firstExpectedCourse);
 		Course secondExpectedCourse = mock(Course.class);
 		when(mapper.fromEntity(secondCourseEntity)).thenReturn(secondExpectedCourse);
 
-		List<Course> courses = courseService.findCourses(Optional.empty(), Optional.of(200L));
+		List<Course> courses = courseService.findCourses(Optional.empty(), Optional.of(LocalDateTime.parse("2015-01-01T00:00:00")));
 
 		assertThat(courses).hasSize(2);
 		assertThat(courses.get(0)).isSameAs(firstExpectedCourse);
@@ -98,14 +100,19 @@ public class CoursesServiceTest {
 	public void findsCoursesWithinGivenTimeframe() {
 		CourseEntity firstCourseEntity = mock(CourseEntity.class);
 		CourseEntity secondCourseEntity = mock(CourseEntity.class);
-		when(courseRepository.findByStartTimeAfterAndEndTimeBefore(100L, 200L)).thenReturn(
-				Lists.newArrayList(firstCourseEntity, secondCourseEntity));
+		when(
+				courseRepository.findByStartTimeAfterAndEndTimeBefore(
+						Timestamp.valueOf(LocalDateTime.parse("2015-01-01T00:00:00")),
+						Timestamp.valueOf(LocalDateTime.parse("2015-01-05T00:00:00"))))
+				.thenReturn(
+						Lists.newArrayList(firstCourseEntity, secondCourseEntity));
 		Course firstExpectedCourse = mock(Course.class);
 		when(mapper.fromEntity(firstCourseEntity)).thenReturn(firstExpectedCourse);
 		Course secondExpectedCourse = mock(Course.class);
 		when(mapper.fromEntity(secondCourseEntity)).thenReturn(secondExpectedCourse);
 
-		List<Course> courses = courseService.findCourses(Optional.of(100L), Optional.of(200L));
+		List<Course> courses = courseService.findCourses(Optional.of(LocalDateTime.parse("2015-01-01T00:00:00")),
+				Optional.of(LocalDateTime.parse("2015-01-05T00:00:00")));
 
 		assertThat(courses).hasSize(2);
 		assertThat(courses.get(0)).isSameAs(firstExpectedCourse);

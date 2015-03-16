@@ -83,6 +83,7 @@ dependencies {
 
     componentTestCompile sourceSets.main.output
     componentTestCompile configurations.compile
+    componentTestCompile "org.assertj:assertj-core:2.0.0"
     componentTestCompile "org.springframework.boot:spring-boot-starter-test"
     componentTestCompile "com.jayway.restassured:rest-assured:2.4.0"
     componentTestRuntime "com.h2database:h2"

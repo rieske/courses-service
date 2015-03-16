@@ -1,5 +1,6 @@
 package lt.vv.courses.repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,10 +17,10 @@ public interface CourseRepository extends Repository<CourseEntity, Long> {
 
 	List<CourseEntity> findAll(Sort sort);
 
-	List<CourseEntity> findByStartTimeAfterAndEndTimeBefore(long startTime, long endTime);
+	List<CourseEntity> findByStartTimeAfterAndEndTimeBefore(Timestamp startTime, Timestamp endTime);
 
-	List<CourseEntity> findByStartTimeAfterOrderByStartTimeAsc(long startTime);
+	List<CourseEntity> findByStartTimeAfterOrderByStartTimeAsc(Timestamp startTime);
 
-	List<CourseEntity> findByEndTimeBeforeOrderByEndTimeDesc(long endTime);
+	List<CourseEntity> findByEndTimeBeforeOrderByEndTimeDesc(Timestamp endTime);
 	
 }

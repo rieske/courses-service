@@ -1,5 +1,6 @@
 package lt.vv.courses.api;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import lt.vv.courses.services.CoursesService;
 import lt.vv.courses.services.CsvMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,8 +37,8 @@ public class CoursesResource {
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Course> listCourses(
-			@RequestParam(required = false) Long fromTime,
-			@RequestParam(required = false) Long toTime)
+			@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime fromTime,
+			@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime toTime)
 	{
 		return coursesService.findCourses(Optional.ofNullable(fromTime), Optional.ofNullable(toTime));
 	}

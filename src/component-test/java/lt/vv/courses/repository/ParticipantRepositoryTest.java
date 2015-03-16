@@ -1,9 +1,6 @@
 package lt.vv.courses.repository;
 
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
@@ -27,25 +24,25 @@ public class ParticipantRepositoryTest {
 	public void returnsEmptyListForACourseWithNoParticipants() {
 		List<ParticipantEntity> participants = participantRepository.findByCourseId(4);
 
-		assertThat(participants, empty());
+		assertThat(participants).isEmpty();
 	}
 
 	@Test
 	public void returnsEmptyListForNonExistentCourse() {
 		List<ParticipantEntity> participants = participantRepository.findByCourseId(999);
 
-		assertThat(participants, empty());
+		assertThat(participants).isEmpty();
 	}
 
 	@Test
 	public void returnsCourseParticipants() {
 		List<ParticipantEntity> participants = participantRepository.findByCourseId(3);
 
-		assertThat(participants, hasSize(2));
-		assertThat(participants.get(0).getFirstName(), equalTo("Swedish"));
-		assertThat(participants.get(0).getLastName(), equalTo("Student"));
-		assertThat(participants.get(1).getFirstName(), equalTo("British"));
-		assertThat(participants.get(1).getLastName(), equalTo("Student"));
+		assertThat(participants).hasSize(2);
+		assertThat(participants.get(0).getFirstName()).isEqualTo("Swedish");
+		assertThat(participants.get(0).getLastName()).isEqualTo("Student");
+		assertThat(participants.get(1).getFirstName()).isEqualTo("British");
+		assertThat(participants.get(1).getLastName()).isEqualTo("Student");
 	}
 
 }

@@ -1,6 +1,7 @@
 package lt.vv.courses.repository.entities;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,10 +22,10 @@ public class CourseEntity implements Serializable {
 	private String name;
 
 	@Column(nullable = false)
-	private Long startTime;
+	private Timestamp startTime;
 
 	@Column(nullable = false)
-	private Long endTime;
+	private Timestamp endTime;
 
 	@Column(nullable = false)
 	private String location;
@@ -37,12 +38,12 @@ public class CourseEntity implements Serializable {
 		return name;
 	}
 
-	public Long getStartTime() {
-		return startTime;
+	public Timestamp getStartTime() {
+		return new Timestamp(startTime.getTime());
 	}
 
-	public Long getEndTime() {
-		return endTime;
+	public Timestamp getEndTime() {
+		return new Timestamp(endTime.getTime());
 	}
 
 	public String getLocation() {

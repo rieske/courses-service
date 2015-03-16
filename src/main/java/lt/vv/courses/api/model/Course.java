@@ -1,18 +1,27 @@
 package lt.vv.courses.api.model;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Course {
 
 	private final long id;
 	private final String courseName;
-	private final long startTime;
-	private final long endTime;
+
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mmZ", timezone = "UTC")
+	private final Date startTime;
+
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mmZ", timezone = "UTC")
+	private final Date endTime;
+
 	private final String location;
 
-	public Course(long id, String courseName, long startTime, long endTime, String location) {
+	public Course(long id, String courseName, Date startTime, Date endTime, String location) {
 		this.id = id;
 		this.courseName = courseName;
-		this.startTime = startTime;
-		this.endTime = endTime;
+		this.startTime = new Date(startTime.getTime());
+		this.endTime = new Date(endTime.getTime());
 		this.location = location;
 	}
 
@@ -24,12 +33,12 @@ public class Course {
 		return courseName;
 	}
 
-	public long getStartTime() {
-		return startTime;
+	public Date getStartTime() {
+		return new Date(startTime.getTime());
 	}
 
-	public long getEndTime() {
-		return endTime;
+	public Date getEndTime() {
+		return new Date(endTime.getTime());
 	}
 
 	public String getLocation() {

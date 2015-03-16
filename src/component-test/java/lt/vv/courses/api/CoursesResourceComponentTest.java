@@ -2,9 +2,7 @@ package lt.vv.courses.api;
 
 import static com.jayway.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.Matchers.notNullValue;
 import lt.vv.courses.CoursesApplication;
 
@@ -53,13 +51,13 @@ public class CoursesResourceComponentTest {
 	public void listsCoursesAfterGivenFromTime() {
 		// @formatter:off
 		when()
-			.get(endpointUrl() + "/courses?fromTime=300")
+			.get(endpointUrl() + "/courses?fromTime=2015-01-05T03:00")
 		.then()
 			.statusCode(HttpStatus.OK.value())
 			.body("$", hasSize(1))
 			.body("[0].id", notNullValue())
 			.body("[0].courseName", equalTo("SE course"))
-			.body("[0].startTime", greaterThan(300));
+			.body("[0].startTime", equalTo("2015-01-05T04:00+0000"));
 		// @formatter:on
 	}
 
@@ -67,16 +65,15 @@ public class CoursesResourceComponentTest {
 	public void listsCoursesBeforeGivenEndTime() {
 		// @formatter:off
 		when()
-			.get(endpointUrl() + "/courses?toTime=800")
+			.get(endpointUrl() + "/courses?toTime=2015-01-05T08:00")
 		.then()
 			.statusCode(HttpStatus.OK.value())
 			.body("$", hasSize(2))
 			.body("[0].id", notNullValue())
 			.body("[0].courseName", equalTo("SE course"))
-			.body("[0].endTime", lessThan(800))
+			.body("[0].endTime", equalTo("2015-01-05T05:00+0000"))
 			.body("[1].id", notNullValue())
-			.body("[1].courseName", equalTo("EN course"))
-			.body("[1].endTime", lessThan(800));
+			.body("[1].courseName", equalTo("EN course"));
 		// @formatter:on
 	}
 
@@ -84,14 +81,12 @@ public class CoursesResourceComponentTest {
 	public void listsCoursesInGivenTimeframe() throws Exception {
 		// @formatter:off
 		when()
-			.get(endpointUrl() + "/courses?fromTime=199&toTime=600")
+			.get(endpointUrl() + "/courses?fromTime=2015-01-05T01:59&toTime=2015-01-05T06:00")
 		.then()
 			.statusCode(HttpStatus.OK.value())
 			.body("$", hasSize(1))
 			.body("[0].id", notNullValue())
-			.body("[0].courseName", equalTo("EN course"))
-			.body("[0].startTime", greaterThan(199))
-			.body("[0].endTime", lessThan(600));
+			.body("[0].courseName", equalTo("EN course"));
 		// @formatter:on
 	}
 
