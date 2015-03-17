@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import lt.vv.courses.CoursesApplication;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,8 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+
+import com.jayway.restassured.RestAssured;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -24,15 +27,17 @@ public class CoursesResourceComponentTest {
 	@Value("${local.server.port}")
 	protected int port;
 
-	private String endpointUrl() {
-		return "http://localhost:" + port;
+	@Before
+	public void setUp() {
+		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+		RestAssured.port = port;
 	}
 
 	@Test
 	public void listsAllCourses() {
 		// @formatter:off
 		when()
-			.get(endpointUrl() + "/courses")
+			.get("/courses")
 		.then()
 			.statusCode(HttpStatus.OK.value())
 			.body("$", hasSize(4))
@@ -51,7 +56,7 @@ public class CoursesResourceComponentTest {
 	public void listsCoursesAfterGivenFromTime() {
 		// @formatter:off
 		when()
-			.get(endpointUrl() + "/courses?fromTime=2015-01-05T03:00")
+			.get("/courses?fromTime=2015-01-05T03:00")
 		.then()
 			.statusCode(HttpStatus.OK.value())
 			.body("$", hasSize(1))
@@ -64,7 +69,7 @@ public class CoursesResourceComponentTest {
 	public void listsCoursesBeforeGivenEndTime() {
 		// @formatter:off
 		when()
-			.get(endpointUrl() + "/courses?toTime=2015-01-05T08:00")
+			.get("/courses?toTime=2015-01-05T08:00")
 		.then()
 			.statusCode(HttpStatus.OK.value())
 			.body("$", hasSize(2))
@@ -79,7 +84,7 @@ public class CoursesResourceComponentTest {
 	public void listsCoursesInGivenTimeframe() throws Exception {
 		// @formatter:off
 		when()
-			.get(endpointUrl() + "/courses?fromTime=2015-01-05T01:59&toTime=2015-01-05T06:00")
+			.get("/courses?fromTime=2015-01-05T01:59&toTime=2015-01-05T06:00")
 		.then()
 			.statusCode(HttpStatus.OK.value())
 			.body("$", hasSize(1))
@@ -92,7 +97,7 @@ public class CoursesResourceComponentTest {
 	public void returnsNotFoundWhenRequestingParticipantsForNonexistentCourse() {
 		// @formatter:off
 		when()
-			.get(endpointUrl() + "/courses/999/participants")
+			.get("/courses/999/participants")
 		.then()
 			.statusCode(HttpStatus.NOT_FOUND.value());
 		// @formatter:on
@@ -102,7 +107,7 @@ public class CoursesResourceComponentTest {
 	public void listsCourseParticipants() {
 		// @formatter:off
 		when()
-			.get(endpointUrl() + "/courses/3/participants")
+			.get("/courses/3/participants")
 		.then()
 			.statusCode(HttpStatus.OK.value())
 			.body("$", hasSize(2));
@@ -119,7 +124,7 @@ public class CoursesResourceComponentTest {
 	public void listsCourseParticipantsInCsv() {
 		// @formatter:off
 		when()
-			.get(endpointUrl() + "/courses/3/participants.csv")
+			.get("/courses/3/participants.csv")
 		.then()
 			.statusCode(HttpStatus.OK.value());
 			//.body(equalTo("\"Swedish,Student,157755600000\"\r\n\"British,Student,199746000000\"\r\n"));
