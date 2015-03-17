@@ -61,6 +61,10 @@ tasks.withType(FindBugs) {
 	configFile = new File(rootDir, "checkstyle.xml")
 }
 
+findbugs {
+    sourceSets = [sourceSets.main, sourceSets.test]
+}
+
 componentTest.dependsOn test
 check.dependsOn componentTest
 jar.dependsOn check
