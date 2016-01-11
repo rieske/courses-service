@@ -72,9 +72,9 @@ jar.dependsOn check
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-starter-data-jpa"
-    compile "com.google.guava:guava:18.0"
+    compile "com.google.guava:guava:19.0"
     compile "org.flywaydb:flyway-core"
-    compile "org.apache.commons:commons-csv:1.1"
+    compile "org.apache.commons:commons-csv:1.2"
 
     testCompile "junit:junit:4.12"
     testCompile "org.assertj:assertj-core:3.3.0"
