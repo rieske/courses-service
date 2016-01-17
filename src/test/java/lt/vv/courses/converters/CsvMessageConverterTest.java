@@ -4,14 +4,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 
-import lt.vv.courses.api.model.CsvRecord;
-
 import org.junit.Test;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.mock.http.MockHttpOutputMessage;
 
 import com.google.common.collect.Lists;
+
+import lt.vv.courses.api.CsvRecord;
 
 public class CsvMessageConverterTest {
 

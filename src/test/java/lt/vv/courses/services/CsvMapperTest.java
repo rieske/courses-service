@@ -4,11 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
-import lt.vv.courses.api.model.Participant;
-
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
+
+import lt.vv.courses.api.Participant;
 
 public class CsvMapperTest {
 

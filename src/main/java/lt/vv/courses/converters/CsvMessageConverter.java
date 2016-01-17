@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
 
-import lt.vv.courses.api.model.CsvRecord;
-
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.springframework.http.HttpInputMessage;
@@ -15,6 +13,8 @@ import org.springframework.http.converter.AbstractHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.stereotype.Component;
+
+import lt.vv.courses.api.CsvRecord;
 
 @Component
 public class CsvMessageConverter extends AbstractHttpMessageConverter<CsvRecord> {
@@ -42,10 +42,10 @@ public class CsvMessageConverter extends AbstractHttpMessageConverter<CsvRecord>
 			throws IOException, HttpMessageNotWritableException
 	{
 		outputMessage.getHeaders().setContentType(CSV_MEDIA_TYPE);
-		outputMessage.getHeaders().set("Content-Disposition", "attachment; filename=\"" + csvRecord.getFileName() + "\"");
+		outputMessage.getHeaders().set("Content-Disposition", "attachment; filename=\"" + csvRecord.fileName + "\"");
 
 		try (CSVPrinter printer = CSVFormat.EXCEL.print(new PrintStream(outputMessage.getBody(), true, "UTF-8"))) {
-			printer.printRecords(csvRecord.getSerializedRecords());
+			printer.printRecords(csvRecord.serializedRecords);
 		}
 	}
 

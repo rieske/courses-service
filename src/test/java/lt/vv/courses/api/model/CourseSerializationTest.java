@@ -11,6 +11,8 @@ import org.junit.Test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lt.vv.courses.api.Course;
+
 public class CourseSerializationTest {
 
 	private static final ObjectMapper MAPPER = new ObjectMapper();

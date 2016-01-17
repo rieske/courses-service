@@ -1,13 +1,13 @@
-package lt.vv.courses.api;
+package lt.vv.courses.resources;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import lt.vv.courses.api.model.Course;
-import lt.vv.courses.api.model.CourseNotFound;
-import lt.vv.courses.api.model.CsvRecord;
-import lt.vv.courses.api.model.Participant;
+import lt.vv.courses.api.Course;
+import lt.vv.courses.api.CourseNotFound;
+import lt.vv.courses.api.CsvRecord;
+import lt.vv.courses.api.Participant;
 import lt.vv.courses.services.CoursesService;
 import lt.vv.courses.services.CsvMapper;
 

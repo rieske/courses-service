@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import lt.vv.courses.api.model.Course;
-import lt.vv.courses.api.model.CourseNotFound;
-import lt.vv.courses.api.model.Participant;
+import lt.vv.courses.api.Course;
+import lt.vv.courses.api.CourseNotFound;
+import lt.vv.courses.api.Participant;
 import lt.vv.courses.repository.CourseRepository;
 import lt.vv.courses.repository.ParticipantRepository;
 import lt.vv.courses.repository.entities.CourseEntity;

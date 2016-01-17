@@ -10,8 +10,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import lt.vv.courses.api.model.Course;
-import lt.vv.courses.api.model.Participant;
+import lt.vv.courses.api.Course;
+import lt.vv.courses.api.Participant;
 import lt.vv.courses.repository.entities.CourseEntity;
 import lt.vv.courses.repository.entities.ParticipantEntity;
 
