@@ -24,7 +24,7 @@ import com.google.common.collect.Lists;
 public class CoursesService {
 
 	@Autowired
-	private EntityToApiModelMapper mapper;
+	private EntityToApiMapper mapper;
 
 	@Autowired
 	private CourseRepository courseRepository;

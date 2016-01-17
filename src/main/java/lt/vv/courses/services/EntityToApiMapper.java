@@ -8,14 +8,14 @@ import lt.vv.courses.repository.entities.ParticipantEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EntityToApiModelMapper {
+public class EntityToApiMapper {
 
 	public Course fromEntity(CourseEntity entity) {
 		return new Course(
 				entity.getId(),
 				entity.getName(),
-				entity.getStartTime(),
-				entity.getEndTime(),
+				entity.getStartTime().toInstant(),
+				entity.getEndTime().toInstant(),
 				entity.getLocation());
 	}
 

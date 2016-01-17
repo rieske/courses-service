@@ -1,4 +1,4 @@
-package lt.vv.courses.api.model;
+package lt.vv.courses.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -30,6 +30,9 @@ public class CourseEntity implements Serializable {
 	@Column(nullable = false)
 	private String location;
 
+	protected CourseEntity() {
+	}
+
 	public long getId() {
 		return id;
 	}

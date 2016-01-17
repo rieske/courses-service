@@ -34,7 +34,7 @@ public class CoursesServiceTest {
 	CourseRepository courseRepository;
 
 	@Mock
-	EntityToApiModelMapper mapper;
+	EntityToApiMapper mapper;
 
 	@Mock
 	ParticipantRepository participantRepository;

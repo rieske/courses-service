@@ -6,30 +6,27 @@ import static org.mockito.Mockito.when;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
+
+import org.junit.Test;
 
 import lt.vv.courses.api.Course;
 import lt.vv.courses.api.Participant;
 import lt.vv.courses.repository.entities.CourseEntity;
 import lt.vv.courses.repository.entities.ParticipantEntity;
 
-import org.junit.Test;
+public class EntityToApiMapperTest {
 
-public class EntityToApiModelMapperTest {
-
-	private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
-
-	EntityToApiModelMapper mapper = new EntityToApiModelMapper();
+	EntityToApiMapper mapper = new EntityToApiMapper();
 
 	@Test
 	public void mapsFromCourseEntityToApiModel() throws ParseException {
 		CourseEntity entity = mock(CourseEntity.class);
 		when(entity.getId()).thenReturn(123L);
 		when(entity.getName()).thenReturn("name");
-		when(entity.getStartTime()).thenReturn(new Timestamp(dateFormat.parse("2015-01-03T10:15+0000").getTime()));
-		when(entity.getEndTime()).thenReturn(new Timestamp(dateFormat.parse("2015-01-03T10:17+0000").getTime()));
+		when(entity.getStartTime()).thenReturn(new Timestamp(Instant.parse("2015-01-03T10:15:00.00Z").toEpochMilli()));
+		when(entity.getEndTime()).thenReturn(new Timestamp(Instant.parse("2015-01-03T10:17:00.00Z").toEpochMilli()));
 		when(entity.getLocation()).thenReturn("location");
 
 		Course course = mapper.fromEntity(entity);
@@ -37,8 +34,8 @@ public class EntityToApiModelMapperTest {
 		assertThat(course).isEqualToComparingFieldByField(new Course(
 				123,
 				"name",
-				new Timestamp(dateFormat.parse("2015-01-03T10:15+0000").getTime()),
-				new Timestamp(dateFormat.parse("2015-01-03T10:17+0000").getTime()),
+				Instant.parse("2015-01-03T10:15:00.00Z"),
+				Instant.parse("2015-01-03T10:17:00.00Z"),
 				"location"));
 	}
 
