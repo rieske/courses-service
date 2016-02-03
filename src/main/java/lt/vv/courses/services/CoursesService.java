@@ -37,11 +37,11 @@ public class CoursesService {
 				.map(s -> endTime
 						.map(Timestamp::valueOf)
 						.map(e -> courseRepository.findByStartTimeAfterAndEndTimeBefore(s, e))
-						.orElse(courseRepository.findByStartTimeAfterOrderByStartTimeAsc(s)))
+						.orElseGet(() -> courseRepository.findByStartTimeAfterOrderByStartTimeAsc(s)))
 				.orElseGet(() -> endTime
 						.map(Timestamp::valueOf)
 						.map(e -> courseRepository.findByEndTimeBeforeOrderByEndTimeDesc(e))
-						.orElse(courseRepository.findAll(new Sort(Direction.ASC, "name"))))
+						.orElseGet(() -> courseRepository.findAll(new Sort(Direction.ASC, "name"))))
 				.stream()
 				.map(mapper::fromEntity)
 				.collect(Collectors.toList());
@@ -49,7 +49,7 @@ public class CoursesService {
 
 	public List<Participant> findCourseParticipants(long courseId) throws CourseNotFound {
 		return courseRepository.findById(courseId)
-				.map(id -> participantRepository.findByCourseId(courseId).stream()
+				.map(course -> participantRepository.findByCourseId(courseId).stream()
 						.map(mapper::fromEntity)
 						.collect(Collectors.toList()))
 				.orElseThrow(CourseNotFound::new);
