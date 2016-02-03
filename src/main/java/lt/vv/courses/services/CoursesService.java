@@ -30,10 +30,16 @@ public class CoursesService {
 	private ParticipantRepository participantRepository;
 
 	public List<Course> findCourses(Optional<LocalDateTime> startTime, Optional<LocalDateTime> endTime) {
+		// I'd argue that a series of if statements would read better in this case. Did this functional voodoo for fun as an exercise though
 		return startTime
-				.map(s -> endTime.map(e -> courseRepository.findByStartTimeAfterAndEndTimeBefore(Timestamp.valueOf(s), Timestamp.valueOf(e)))
-						.orElse(courseRepository.findByStartTimeAfterOrderByStartTimeAsc(Timestamp.valueOf(s))))
-				.orElseGet(() -> endTime.map(e -> courseRepository.findByEndTimeBeforeOrderByEndTimeDesc(Timestamp.valueOf(e)))
+				.map(Timestamp::valueOf)
+				.map(s -> endTime
+						.map(Timestamp::valueOf)
+						.map(e -> courseRepository.findByStartTimeAfterAndEndTimeBefore(s, e))
+						.orElse(courseRepository.findByStartTimeAfterOrderByStartTimeAsc(s)))
+				.orElseGet(() -> endTime
+						.map(Timestamp::valueOf)
+						.map(e -> courseRepository.findByEndTimeBeforeOrderByEndTimeDesc(e))
 						.orElse(courseRepository.findAll(new Sort(Direction.ASC, "name"))))
 				.stream()
 				.map(mapper::fromEntity)
