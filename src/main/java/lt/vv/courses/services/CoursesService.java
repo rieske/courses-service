@@ -30,7 +30,8 @@ public class CoursesService {
 	private ParticipantRepository participantRepository;
 
 	public List<Course> findCourses(Optional<LocalDateTime> startTime, Optional<LocalDateTime> endTime) {
-		// I'd argue that a series of if statements would read better in this case. Did this functional voodoo for fun as an exercise though
+		// I'd argue that a series of if statements would read better in this
+		// case. Did this functional voodoo for fun as an exercise though
 		return startTime
 				.map(Timestamp::valueOf)
 				.map(s -> endTime
@@ -47,9 +48,10 @@ public class CoursesService {
 	}
 
 	public List<Participant> findCourseParticipants(long courseId) throws CourseNotFound {
-		courseRepository.findById(courseId).orElseThrow(CourseNotFound::new);
-		return participantRepository.findByCourseId(courseId).stream()
-				.map(mapper::fromEntity)
-				.collect(Collectors.toList());
+		return courseRepository.findById(courseId)
+				.map(id -> participantRepository.findByCourseId(courseId).stream()
+						.map(mapper::fromEntity)
+						.collect(Collectors.toList()))
+				.orElseThrow(CourseNotFound::new);
 	}
 }
