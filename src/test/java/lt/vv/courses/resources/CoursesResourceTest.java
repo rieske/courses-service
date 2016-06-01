@@ -1,21 +1,14 @@
 package lt.vv.courses.resources;
 
-import static com.jayway.restassured.module.mockmvc.RestAssuredMockMvc.given;
-import static com.jayway.restassured.module.mockmvc.RestAssuredMockMvc.when;
-import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.restassured.module.mockmvc.RestAssuredMockMvc;
+import lt.vv.courses.api.Course;
+import lt.vv.courses.api.CourseNotFound;
+import lt.vv.courses.api.Participant;
+import lt.vv.courses.converters.CsvMessageConverter;
+import lt.vv.courses.services.CoursesService;
+import lt.vv.courses.services.CsvMapper;
 import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,17 +19,22 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
-import com.jayway.restassured.module.mockmvc.RestAssuredMockMvc;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
-import lt.vv.courses.api.Course;
-import lt.vv.courses.api.CourseNotFound;
-import lt.vv.courses.api.Participant;
-import lt.vv.courses.converters.CsvMessageConverter;
-import lt.vv.courses.services.CoursesService;
-import lt.vv.courses.services.CsvMapper;
+import static com.jayway.restassured.module.mockmvc.RestAssuredMockMvc.given;
+import static com.jayway.restassured.module.mockmvc.RestAssuredMockMvc.when;
+import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CoursesResourceTest {
@@ -60,7 +58,7 @@ public class CoursesResourceTest {
 
 	@Test
 	public void listsAllCoursesWihoutQueryParameters() throws JsonProcessingException {
-		List<Course> courses = Lists.newArrayList(new Course(
+		List<Course> courses = Arrays.asList(new Course(
 				1,
 				"name",
 				Instant.parse("2015-01-03T10:15:00.00Z"),
@@ -83,7 +81,7 @@ public class CoursesResourceTest {
 
 	@Test
 	public void listsCoursesAfterGivenFromTime() throws JsonProcessingException {
-		List<Course> courses = Lists.newArrayList(new Course(
+		List<Course> courses = Arrays.asList(new Course(
 				1,
 				"name",
 				Instant.parse("2015-01-03T10:15:00.00Z"),
@@ -108,7 +106,7 @@ public class CoursesResourceTest {
 
 	@Test
 	public void listsCoursesBeforeGivenEndTime() throws JsonProcessingException {
-		List<Course> courses = Lists.newArrayList(new Course(
+		List<Course> courses = Arrays.asList(new Course(
 				1,
 				"name",
 				Instant.parse("2015-01-03T10:15:00.00Z"),
@@ -133,7 +131,7 @@ public class CoursesResourceTest {
 
 	@Test
 	public void listsCoursesInGivenTimeframe() throws JsonProcessingException {
-		List<Course> courses = Lists.newArrayList(new Course(
+		List<Course> courses = Arrays.asList(new Course(
 				1,
 				"name",
 				Instant.parse("2015-01-03T10:15:00.00Z"),
@@ -175,7 +173,7 @@ public class CoursesResourceTest {
 	@Test
 	public void returnsCourseParticipants() throws Exception {
 		when(coursesService.findCourseParticipants(123L))
-				.thenReturn(Lists.newArrayList(new Participant("name", "surname", 999)));
+				.thenReturn(Arrays.asList(new Participant("name", "surname", 999)));
 
 		// @formatter:off
 		when().
@@ -203,9 +201,9 @@ public class CoursesResourceTest {
 
 	@Test
 	public void returnsCourseParticipantsInCsv() throws Exception {
-		List<Participant> participants = Lists.newArrayList(new Participant("name", "surname", 999));
+		List<Participant> participants = Arrays.asList(new Participant("name", "surname", 999));
 		when(coursesService.findCourseParticipants(123L)).thenReturn(participants);
-		when(csvMapper.toCsv(participants)).thenReturn(Lists.newArrayList("aaa", "bbb"));
+		when(csvMapper.toCsv(participants)).thenReturn(Arrays.asList("aaa", "bbb"));
 
 		MockMvc mvc = MockMvcBuilders
 				.standaloneSetup(coursesResource).setMessageConverters(new CsvMessageConverter())

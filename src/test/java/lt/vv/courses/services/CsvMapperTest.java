@@ -2,11 +2,12 @@ package lt.vv.courses.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
 
-import com.google.common.collect.Lists;
 
 import lt.vv.courses.api.Participant;
 
@@ -16,7 +17,7 @@ public class CsvMapperTest {
 
 	@Test
 	public void mapsParticipantListToCsvStringList() {
-		List<String> participantCsvs = csvMapper.toCsv(Lists.newArrayList(
+		List<String> participantCsvs = csvMapper.toCsv(Arrays.asList(
 				new Participant("name1", "surname1", 111),
 				new Participant("name2", "surname2", 222)));
 
@@ -25,7 +26,7 @@ public class CsvMapperTest {
 
 	@Test
 	public void mapsEmptyParticipantListToEmptyCsvStringList() {
-		List<String> participantCsvs = csvMapper.toCsv(Lists.<Participant> newArrayList());
+		List<String> participantCsvs = csvMapper.toCsv(Collections.emptyList());
 
 		assertThat(participantCsvs).isEmpty();
 	}

@@ -1,17 +1,15 @@
 package lt.vv.courses.converters;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-
+import lt.vv.courses.api.CsvRecord;
 import org.junit.Test;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.mock.http.MockHttpOutputMessage;
 
-import com.google.common.collect.Lists;
+import java.io.IOException;
+import java.util.Arrays;
 
-import lt.vv.courses.api.CsvRecord;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CsvMessageConverterTest {
 
@@ -29,7 +27,7 @@ public class CsvMessageConverterTest {
 
 	@Test
 	public void convertsCsvRecordToCsvHttpResponse() throws HttpMessageNotWritableException, IOException {
-		CsvRecord csvRecord = new CsvRecord("csvFileName.csv", Lists.newArrayList("record1", "record2", "record3"));
+		CsvRecord csvRecord = new CsvRecord("csvFileName.csv", Arrays.asList("record1", "record2", "record3"));
 		HttpOutputMessage outputMessage = new MockHttpOutputMessage();
 
 		converter.write(csvRecord, CsvMessageConverter.CSV_MEDIA_TYPE, outputMessage);
