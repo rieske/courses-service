@@ -28,9 +28,7 @@ sourceSets {
     }
 }
 
-task componentTest(type: Test) {
-
-}
+task componentTest(type: Test)
 
 tasks {
     wrapper {
