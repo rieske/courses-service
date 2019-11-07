@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
@@ -29,16 +29,16 @@ import static org.mockito.Mockito.when;
 public class CoursesServiceTest {
 
 	@Mock
-	CourseRepository courseRepository;
+	private CourseRepository courseRepository;
 
 	@Mock
-	EntityToApiMapper mapper;
+	private EntityToApiMapper mapper;
 
 	@Mock
-	ParticipantRepository participantRepository;
+	private ParticipantRepository participantRepository;
 
 	@InjectMocks
-	CoursesService courseService;
+	private CoursesService courseService;
 
 	@Test
 	public void findsAllCourses() {

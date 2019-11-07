@@ -1,15 +1,13 @@
 package lt.vv.courses.api;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.text.ParseException;
-import java.time.Instant;
-
-import org.junit.Test;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.junit.Test;
+
+import java.time.Instant;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CourseSerializationTest {
 
@@ -18,7 +16,7 @@ public class CourseSerializationTest {
 			.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
 	@Test
-	public void serializesCourseToJson() throws JsonProcessingException, ParseException {
+	public void serializesCourseToJson() throws JsonProcessingException {
 		String courseJson = MAPPER.writeValueAsString(new Course(
 				1,
 				"name",

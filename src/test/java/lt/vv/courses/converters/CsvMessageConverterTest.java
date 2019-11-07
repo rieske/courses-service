@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class CsvMessageConverterTest {
 
-	CsvMessageConverter converter = new CsvMessageConverter();
+	private CsvMessageConverter converter = new CsvMessageConverter();
 
 	@Test
 	public void supportsCsvRecords() {

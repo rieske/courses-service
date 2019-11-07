@@ -1,27 +1,25 @@
 package lt.vv.courses.services;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.time.Instant;
-
-import org.junit.Test;
-
 import lt.vv.courses.api.Course;
 import lt.vv.courses.api.Participant;
 import lt.vv.courses.repository.entities.CourseEntity;
 import lt.vv.courses.repository.entities.ParticipantEntity;
+import org.junit.Test;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.Instant;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class EntityToApiMapperTest {
 
-	EntityToApiMapper mapper = new EntityToApiMapper();
+	private EntityToApiMapper mapper = new EntityToApiMapper();
 
 	@Test
-	public void mapsFromCourseEntityToApiModel() throws ParseException {
+	public void mapsFromCourseEntityToApiModel() {
 		CourseEntity entity = mock(CourseEntity.class);
 		when(entity.getId()).thenReturn(123L);
 		when(entity.getName()).thenReturn("name");

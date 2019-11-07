@@ -1,19 +1,17 @@
 package lt.vv.courses.services;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import lt.vv.courses.api.Participant;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Test;
-
-
-import lt.vv.courses.api.Participant;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CsvMapperTest {
 
-	CsvMapper csvMapper = new CsvMapper();
+	private CsvMapper csvMapper = new CsvMapper();
 
 	@Test
 	public void mapsParticipantListToCsvStringList() {
