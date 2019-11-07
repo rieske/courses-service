@@ -70,9 +70,7 @@ dependencies {
     testImplementation("com.jayway.restassured:spring-mock-mvc:2.9.0")
     testRuntime("com.h2database:h2")
 
-    componentTestImplementation(configurations.implementation)
-    componentTestImplementation("org.springframework.boot:spring-boot-starter-test")
-    componentTestImplementation("com.jayway.restassured:rest-assured:2.9.0")
+    componentTestImplementation(configurations.testImplementation)
     componentTestRuntime("com.h2database:h2")
 }
 
