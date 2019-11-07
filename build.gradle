@@ -83,7 +83,7 @@ dependencies {
 
     implementation("org.flywaydb:flyway-core")
     implementation("org.apache.commons:commons-csv:1.4")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.7.4")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("com.jayway.restassured:spring-mock-mvc:2.9.0")
