@@ -44,7 +44,7 @@ public class CoursesServiceTest {
 	public void findsAllCourses() {
 		CourseEntity firstCourseEntity = mock(CourseEntity.class);
 		CourseEntity secondCourseEntity = mock(CourseEntity.class);
-		when(courseRepository.findAll(new Sort(Direction.ASC, "name"))).thenReturn(
+		when(courseRepository.findAll(Sort.by(Direction.ASC, "name"))).thenReturn(
 				Arrays.asList(firstCourseEntity, secondCourseEntity));
 		Course firstExpectedCourse = mock(Course.class);
 		when(mapper.fromEntity(firstCourseEntity)).thenReturn(firstExpectedCourse);

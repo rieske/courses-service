@@ -58,7 +58,7 @@ public class CoursesResourceTest {
 
 	@Test
 	public void listsAllCoursesWihoutQueryParameters() throws JsonProcessingException {
-		List<Course> courses = Arrays.asList(new Course(
+		List<Course> courses = List.of(new Course(
 				1,
 				"name",
 				Instant.parse("2015-01-03T10:15:00.00Z"),
@@ -81,7 +81,7 @@ public class CoursesResourceTest {
 
 	@Test
 	public void listsCoursesAfterGivenFromTime() throws JsonProcessingException {
-		List<Course> courses = Arrays.asList(new Course(
+		List<Course> courses = List.of(new Course(
 				1,
 				"name",
 				Instant.parse("2015-01-03T10:15:00.00Z"),
@@ -106,7 +106,7 @@ public class CoursesResourceTest {
 
 	@Test
 	public void listsCoursesBeforeGivenEndTime() throws JsonProcessingException {
-		List<Course> courses = Arrays.asList(new Course(
+		List<Course> courses = List.of(new Course(
 				1,
 				"name",
 				Instant.parse("2015-01-03T10:15:00.00Z"),
@@ -131,7 +131,7 @@ public class CoursesResourceTest {
 
 	@Test
 	public void listsCoursesInGivenTimeframe() throws JsonProcessingException {
-		List<Course> courses = Arrays.asList(new Course(
+		List<Course> courses = List.of(new Course(
 				1,
 				"name",
 				Instant.parse("2015-01-03T10:15:00.00Z"),
@@ -173,14 +173,14 @@ public class CoursesResourceTest {
 	@Test
 	public void returnsCourseParticipants() throws Exception {
 		when(coursesService.findCourseParticipants(123L))
-				.thenReturn(Arrays.asList(new Participant("name", "surname", 999)));
+				.thenReturn(List.of(new Participant("name", "surname", 999)));
 
 		// @formatter:off
 		when().
 			get("/courses/123/participants").
 		then().
 			statusCode(HttpStatus.SC_OK).
-			expect(content().json("[{\"firstName\":\"name\",\"lastName\":\"surname\",\"dateOfBirth\":999,}]"));
+			expect(content().json("[{\"firstName\":\"name\",\"lastName\":\"surname\",\"dateOfBirth\":999}]"));
 		// @formatter:on
 	}
 
@@ -201,7 +201,7 @@ public class CoursesResourceTest {
 
 	@Test
 	public void returnsCourseParticipantsInCsv() throws Exception {
-		List<Participant> participants = Arrays.asList(new Participant("name", "surname", 999));
+		List<Participant> participants = List.of(new Participant("name", "surname", 999));
 		when(coursesService.findCourseParticipants(123L)).thenReturn(participants);
 		when(csvMapper.toCsv(participants)).thenReturn(Arrays.asList("aaa", "bbb"));
 

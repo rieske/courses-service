@@ -1,20 +1,19 @@
 package lt.vv.courses.repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.List;
-
 import lt.vv.courses.CoursesApplication;
 import lt.vv.courses.repository.entities.ParticipantEntity;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = CoursesApplication.class)
+@SpringBootTest(classes = CoursesApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ParticipantRepositoryTest {
 
 	@Autowired

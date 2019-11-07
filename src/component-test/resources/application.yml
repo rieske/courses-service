@@ -5,5 +5,5 @@ spring:
     properties:
       hibernate:
         default_schema: COURSES
-flyway:
-  schemas: COURSES
+  flyway:
+    schemas: COURSES

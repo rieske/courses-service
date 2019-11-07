@@ -1,6 +1,14 @@
 package lt.vv.courses.repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import lt.vv.courses.CoursesApplication;
+import lt.vv.courses.repository.entities.CourseEntity;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -8,19 +16,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-import lt.vv.courses.CoursesApplication;
-import lt.vv.courses.repository.entities.CourseEntity;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = CoursesApplication.class)
+@SpringBootTest(classes = CoursesApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CourseRepositoryTest {
 
 	@Autowired
@@ -49,7 +48,7 @@ public class CourseRepositoryTest {
 
 	@Test
 	public void findsAllCoursesSortingByNameAlphabetically() {
-		List<CourseEntity> sortedCourses = courseRepository.findAll(new Sort(Direction.ASC, "name"));
+		List<CourseEntity> sortedCourses = courseRepository.findAll(Sort.by(Direction.ASC, "name"));
 
 		assertThat(sortedCourses).hasSize(4);
 		Iterator<CourseEntity> courseIterator = sortedCourses.iterator();

@@ -41,7 +41,7 @@ public class CoursesService {
 				.orElseGet(() -> endTime
 						.map(Timestamp::valueOf)
 						.map(e -> courseRepository.findByEndTimeBeforeOrderByEndTimeDesc(e))
-						.orElseGet(() -> courseRepository.findAll(new Sort(Direction.ASC, "name"))))
+						.orElseGet(() -> courseRepository.findAll(Sort.by(Direction.ASC, "name"))))
 				.stream()
 				.map(mapper::fromEntity)
 				.collect(Collectors.toList());
