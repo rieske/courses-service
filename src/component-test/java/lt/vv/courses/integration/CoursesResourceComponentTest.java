@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.notNullValue;
 public class CoursesResourceComponentTest {
 
 	@Value("${local.server.port}")
-	protected int port;
+	private int port;
 
 	@Before
 	public void setUp() {

@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ParticipantRepositoryTest {
 
 	@Autowired
-	ParticipantRepository participantRepository;
+	private ParticipantRepository participantRepository;
 
 	@Test
 	public void returnsEmptyListForACourseWithNoParticipants() {

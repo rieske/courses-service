@@ -23,11 +23,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CourseRepositoryTest {
 
 	@Autowired
-	CourseRepository courseRepository;
+	private CourseRepository courseRepository;
 
 	@Test
 	public void returnsAbsentOptionalForNonExistentCourse() {
-		Optional<CourseEntity> course = courseRepository.findById(9999999999l);
+		Optional<CourseEntity> course = courseRepository.findById(9999999999L);
 
 		assertThat(course.isPresent()).isFalse();
 	}
