@@ -62,10 +62,6 @@ tasks {
         classpath = sourceSets.componentTest.runtimeClasspath
         testLogging.showStandardStreams = true
         testLogging.exceptionFormat = "full"
-        jacoco {
-            append = true
-            destinationFile = file("$buildDir/jacoco/test.exec")
-        }
     }
 
     check.dependsOn(componentTest)
