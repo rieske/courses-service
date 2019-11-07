@@ -9,8 +9,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringBootTest(classes = CoursesApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ContextTest {
 
-	@Test
-	public void contextStarts() {
-	}
+    @Test
+    public void contextStarts() {
+    }
 
 }

@@ -19,18 +19,18 @@ import static org.hamcrest.Matchers.notNullValue;
 @SpringBootTest(classes = CoursesApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CoursesResourceComponentTest {
 
-	@Value("${local.server.port}")
-	private int port;
+    @Value("${local.server.port}")
+    private int port;
 
-	@Before
-	public void setUp() {
-		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
-		RestAssured.port = port;
-	}
+    @Before
+    public void setUp() {
+        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+        RestAssured.port = port;
+    }
 
-	@Test
-	public void listsAllCourses() {
-		// @formatter:off
+    @Test
+    public void listsAllCourses() {
+        // @formatter:off
 		when()
 			.get("/courses")
 		.then()
@@ -45,11 +45,11 @@ public class CoursesResourceComponentTest {
 			.body("[3].id", notNullValue())
 			.body("[3].courseName", equalTo("SE course"));
 		// @formatter:on
-	}
+    }
 
-	@Test
-	public void listsCoursesAfterGivenFromTime() {
-		// @formatter:off
+    @Test
+    public void listsCoursesAfterGivenFromTime() {
+        // @formatter:off
 		when()
 			.get("/courses?fromTime=2015-01-05T03:00")
 		.then()
@@ -58,11 +58,11 @@ public class CoursesResourceComponentTest {
 			.body("[0].id", notNullValue())
 			.body("[0].courseName", equalTo("SE course"));
 		// @formatter:on
-	}
+    }
 
-	@Test
-	public void listsCoursesBeforeGivenEndTime() {
-		// @formatter:off
+    @Test
+    public void listsCoursesBeforeGivenEndTime() {
+        // @formatter:off
 		when()
 			.get("/courses?toTime=2015-01-05T08:00")
 		.then()
@@ -73,11 +73,11 @@ public class CoursesResourceComponentTest {
 			.body("[1].id", notNullValue())
 			.body("[1].courseName", equalTo("EN course"));
 		// @formatter:on
-	}
+    }
 
-	@Test
-	public void listsCoursesInGivenTimeframe() throws Exception {
-		// @formatter:off
+    @Test
+    public void listsCoursesInGivenTimeframe() throws Exception {
+        // @formatter:off
 		when()
 			.get("/courses?fromTime=2015-01-05T01:59&toTime=2015-01-05T06:00")
 		.then()
@@ -86,21 +86,21 @@ public class CoursesResourceComponentTest {
 			.body("[0].id", notNullValue())
 			.body("[0].courseName", equalTo("EN course"));
 		// @formatter:on
-	}
+    }
 
-	@Test
-	public void returnsNotFoundWhenRequestingParticipantsForNonexistentCourse() {
-		// @formatter:off
+    @Test
+    public void returnsNotFoundWhenRequestingParticipantsForNonexistentCourse() {
+        // @formatter:off
 		when()
 			.get("/courses/999/participants")
 		.then()
 			.statusCode(HttpStatus.NOT_FOUND.value());
 		// @formatter:on
-	}
+    }
 
-	@Test
-	public void listsCourseParticipants() {
-		// @formatter:off
+    @Test
+    public void listsCourseParticipants() {
+        // @formatter:off
 		when()
 			.get("/courses/3/participants")
 		.then()
@@ -113,16 +113,16 @@ public class CoursesResourceComponentTest {
 			//.body("[1].lastName", equalTo("Student"))
 			//.body("[1].dateOfBirth", equalTo(199746000000L));
 		// @formatter:on
-	}
+    }
 
-	@Test
-	public void listsCourseParticipantsInCsv() {
-		// @formatter:off
+    @Test
+    public void listsCourseParticipantsInCsv() {
+        // @formatter:off
 		when()
 			.get("/courses/3/participants.csv")
 		.then()
 			.statusCode(HttpStatus.OK.value());
 			//.body(equalTo("\"Swedish,Student,157755600000\"\r\n\"British,Student,199746000000\"\r\n"));
 		// @formatter:on
-	}
+    }
 }

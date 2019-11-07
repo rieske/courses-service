@@ -39,35 +39,35 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(MockitoJUnitRunner.class)
 public class CoursesResourceTest {
 
-	@Mock
-	private CoursesService coursesService;
+    @Mock
+    private CoursesService coursesService;
 
-	@Mock
-	private CsvMapper csvMapper;
+    @Mock
+    private CsvMapper csvMapper;
 
-	@InjectMocks
-	private CoursesResource coursesResource;
+    @InjectMocks
+    private CoursesResource coursesResource;
 
-	private ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
+    private ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
 
-	@Before
-	public void setUpMockMvc() {
-		RestAssuredMockMvc.standaloneSetup(coursesResource);
-		RestAssuredMockMvc.enableLoggingOfRequestAndResponseIfValidationFails();
-	}
+    @Before
+    public void setUpMockMvc() {
+        RestAssuredMockMvc.standaloneSetup(coursesResource);
+        RestAssuredMockMvc.enableLoggingOfRequestAndResponseIfValidationFails();
+    }
 
-	@Test
-	public void listsAllCoursesWihoutQueryParameters() throws JsonProcessingException {
-		List<Course> courses = List.of(new Course(
-				1,
-				"name",
-				Instant.parse("2015-01-03T10:15:00.00Z"),
-				Instant.parse("2015-01-03T10:18:00.00Z"),
-				"location"));
-		when(coursesService.findCourses(Optional.empty(), Optional.empty()))
-				.thenReturn(courses);
+    @Test
+    public void listsAllCoursesWihoutQueryParameters() throws JsonProcessingException {
+        List<Course> courses = List.of(new Course(
+                1,
+                "name",
+                Instant.parse("2015-01-03T10:15:00.00Z"),
+                Instant.parse("2015-01-03T10:18:00.00Z"),
+                "location"));
+        when(coursesService.findCourses(Optional.empty(), Optional.empty()))
+                .thenReturn(courses);
 
-		// @formatter:off
+        // @formatter:off
 		when().
 			get("/courses").
 		then().
@@ -75,22 +75,22 @@ public class CoursesResourceTest {
 			expect(content().json(mapper.writeValueAsString(courses)));
 		// @formatter:on
 
-		verify(coursesService).findCourses(Optional.empty(), Optional.empty());
-		verifyNoMoreInteractions(coursesService);
-	}
+        verify(coursesService).findCourses(Optional.empty(), Optional.empty());
+        verifyNoMoreInteractions(coursesService);
+    }
 
-	@Test
-	public void listsCoursesAfterGivenFromTime() throws JsonProcessingException {
-		List<Course> courses = List.of(new Course(
-				1,
-				"name",
-				Instant.parse("2015-01-03T10:15:00.00Z"),
-				Instant.parse("2015-01-03T10:18:00.00Z"),
-				"location"));
-		when(coursesService.findCourses(Optional.of(LocalDateTime.parse("2015-01-03T10:15")), Optional.empty()))
-				.thenReturn(courses);
+    @Test
+    public void listsCoursesAfterGivenFromTime() throws JsonProcessingException {
+        List<Course> courses = List.of(new Course(
+                1,
+                "name",
+                Instant.parse("2015-01-03T10:15:00.00Z"),
+                Instant.parse("2015-01-03T10:18:00.00Z"),
+                "location"));
+        when(coursesService.findCourses(Optional.of(LocalDateTime.parse("2015-01-03T10:15")), Optional.empty()))
+                .thenReturn(courses);
 
-		// @formatter:off
+        // @formatter:off
 		given().
 			param("fromTime", "2015-01-03T10:15").
 		when().
@@ -100,22 +100,22 @@ public class CoursesResourceTest {
 			expect(content().json(mapper.writeValueAsString(courses)));
 		// @formatter:on
 
-		verify(coursesService).findCourses(Optional.of(LocalDateTime.parse("2015-01-03T10:15")), Optional.empty());
-		verifyNoMoreInteractions(coursesService);
-	}
+        verify(coursesService).findCourses(Optional.of(LocalDateTime.parse("2015-01-03T10:15")), Optional.empty());
+        verifyNoMoreInteractions(coursesService);
+    }
 
-	@Test
-	public void listsCoursesBeforeGivenEndTime() throws JsonProcessingException {
-		List<Course> courses = List.of(new Course(
-				1,
-				"name",
-				Instant.parse("2015-01-03T10:15:00.00Z"),
-				Instant.parse("2015-01-03T10:18:00.00Z"),
-				"location"));
-		when(coursesService.findCourses(Optional.empty(), Optional.of(LocalDateTime.parse("2015-01-03T10:18"))))
-				.thenReturn(courses);
+    @Test
+    public void listsCoursesBeforeGivenEndTime() throws JsonProcessingException {
+        List<Course> courses = List.of(new Course(
+                1,
+                "name",
+                Instant.parse("2015-01-03T10:15:00.00Z"),
+                Instant.parse("2015-01-03T10:18:00.00Z"),
+                "location"));
+        when(coursesService.findCourses(Optional.empty(), Optional.of(LocalDateTime.parse("2015-01-03T10:18"))))
+                .thenReturn(courses);
 
-		// @formatter:off
+        // @formatter:off
 		given().
 			param("toTime", "2015-01-03T10:18").
 		when().
@@ -125,24 +125,24 @@ public class CoursesResourceTest {
 			expect(content().json(mapper.writeValueAsString(courses)));
 		// @formatter:on
 
-		verify(coursesService).findCourses(Optional.empty(), Optional.of(LocalDateTime.parse("2015-01-03T10:18")));
-		verifyNoMoreInteractions(coursesService);
-	}
+        verify(coursesService).findCourses(Optional.empty(), Optional.of(LocalDateTime.parse("2015-01-03T10:18")));
+        verifyNoMoreInteractions(coursesService);
+    }
 
-	@Test
-	public void listsCoursesInGivenTimeframe() throws JsonProcessingException {
-		List<Course> courses = List.of(new Course(
-				1,
-				"name",
-				Instant.parse("2015-01-03T10:15:00.00Z"),
-				Instant.parse("2015-01-03T10:18:00.00Z"),
-				"location"));
-		when(coursesService.findCourses(
-				Optional.of(LocalDateTime.parse("2015-01-03T00:00:00")),
-				Optional.of(LocalDateTime.parse("2015-01-05T00:00:00"))))
-						.thenReturn(courses);
+    @Test
+    public void listsCoursesInGivenTimeframe() throws JsonProcessingException {
+        List<Course> courses = List.of(new Course(
+                1,
+                "name",
+                Instant.parse("2015-01-03T10:15:00.00Z"),
+                Instant.parse("2015-01-03T10:18:00.00Z"),
+                "location"));
+        when(coursesService.findCourses(
+                Optional.of(LocalDateTime.parse("2015-01-03T00:00:00")),
+                Optional.of(LocalDateTime.parse("2015-01-05T00:00:00"))))
+                .thenReturn(courses);
 
-		// @formatter:off
+        // @formatter:off
 		given().
 			param("fromTime", "2015-01-03T00:00").
 			param("toTime", "2015-01-05T00:00").
@@ -153,63 +153,63 @@ public class CoursesResourceTest {
 			expect(content().json(mapper.writeValueAsString(courses)));
 		// @formatter:on
 
-		verify(coursesService).findCourses(Optional.of(LocalDateTime.parse("2015-01-03T00:00")),
-				Optional.of(LocalDateTime.parse("2015-01-05T00:00")));
-		verifyNoMoreInteractions(coursesService);
-	}
+        verify(coursesService).findCourses(Optional.of(LocalDateTime.parse("2015-01-03T00:00")),
+                Optional.of(LocalDateTime.parse("2015-01-05T00:00")));
+        verifyNoMoreInteractions(coursesService);
+    }
 
-	@Test
-	public void returnsNotFoundWhenRequestingParticipantsForNonexistentCourse() throws CourseNotFound {
-		when(coursesService.findCourseParticipants(999L)).thenThrow(new CourseNotFound());
+    @Test
+    public void returnsNotFoundWhenRequestingParticipantsForNonexistentCourse() throws CourseNotFound {
+        when(coursesService.findCourseParticipants(999L)).thenThrow(new CourseNotFound());
 
-		// @formatter:off
+        // @formatter:off
 		when().
 			get("/courses/999/participants").
 		then().
 			statusCode(HttpStatus.SC_NOT_FOUND);
 		// @formatter:on
-	}
+    }
 
-	@Test
-	public void returnsCourseParticipants() throws Exception {
-		when(coursesService.findCourseParticipants(123L))
-				.thenReturn(List.of(new Participant("name", "surname", 999)));
+    @Test
+    public void returnsCourseParticipants() throws Exception {
+        when(coursesService.findCourseParticipants(123L))
+                .thenReturn(List.of(new Participant("name", "surname", 999)));
 
-		// @formatter:off
+        // @formatter:off
 		when().
 			get("/courses/123/participants").
 		then().
 			statusCode(HttpStatus.SC_OK).
 			expect(content().json("[{\"firstName\":\"name\",\"lastName\":\"surname\",\"dateOfBirth\":999}]"));
 		// @formatter:on
-	}
+    }
 
-	@Test
-	public void returnsNotFoundWhenRequestingParticipantsForNonexistentCourseInCsv() throws Exception {
-		when(coursesService.findCourseParticipants(999L)).thenThrow(new CourseNotFound());
+    @Test
+    public void returnsNotFoundWhenRequestingParticipantsForNonexistentCourseInCsv() throws Exception {
+        when(coursesService.findCourseParticipants(999L)).thenThrow(new CourseNotFound());
 
-		MockMvc mvc = MockMvcBuilders
-				.standaloneSetup(coursesResource).setMessageConverters(new CsvMessageConverter())
-				.build();
+        MockMvc mvc = MockMvcBuilders
+                .standaloneSetup(coursesResource).setMessageConverters(new CsvMessageConverter())
+                .build();
 
-		// @formatter:off
+        // @formatter:off
 		mvc.perform(
 				get("/courses/999/participants.csv"))
 				.andExpect(status().isNotFound());
 		// @formatter:on
-	}
+    }
 
-	@Test
-	public void returnsCourseParticipantsInCsv() throws Exception {
-		List<Participant> participants = List.of(new Participant("name", "surname", 999));
-		when(coursesService.findCourseParticipants(123L)).thenReturn(participants);
-		when(csvMapper.toCsv(participants)).thenReturn(Arrays.asList("aaa", "bbb"));
+    @Test
+    public void returnsCourseParticipantsInCsv() throws Exception {
+        List<Participant> participants = List.of(new Participant("name", "surname", 999));
+        when(coursesService.findCourseParticipants(123L)).thenReturn(participants);
+        when(csvMapper.toCsv(participants)).thenReturn(Arrays.asList("aaa", "bbb"));
 
-		MockMvc mvc = MockMvcBuilders
-				.standaloneSetup(coursesResource).setMessageConverters(new CsvMessageConverter())
-				.build();
+        MockMvc mvc = MockMvcBuilders
+                .standaloneSetup(coursesResource).setMessageConverters(new CsvMessageConverter())
+                .build();
 
-		// @formatter:off
+        // @formatter:off
 		mvc.perform(
 				get("/courses/123/participants.csv"))
 				.andExpect(status().isOk())
@@ -217,5 +217,5 @@ public class CoursesResourceTest {
 				.andExpect(header().string("Content-Disposition", equalTo("attachment; filename=\"course-123-participants.csv\"")))
 				.andExpect(content().string(equalTo("aaa\r\nbbb\r\n")));
 		// @formatter:on
-	}
+    }
 }

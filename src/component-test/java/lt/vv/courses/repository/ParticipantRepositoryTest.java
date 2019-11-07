@@ -16,32 +16,32 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(classes = CoursesApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ParticipantRepositoryTest {
 
-	@Autowired
-	private ParticipantRepository participantRepository;
+    @Autowired
+    private ParticipantRepository participantRepository;
 
-	@Test
-	public void returnsEmptyListForACourseWithNoParticipants() {
-		List<ParticipantEntity> participants = participantRepository.findByCourseId(4);
+    @Test
+    public void returnsEmptyListForACourseWithNoParticipants() {
+        List<ParticipantEntity> participants = participantRepository.findByCourseId(4);
 
-		assertThat(participants).isEmpty();
-	}
+        assertThat(participants).isEmpty();
+    }
 
-	@Test
-	public void returnsEmptyListForNonExistentCourse() {
-		List<ParticipantEntity> participants = participantRepository.findByCourseId(999);
+    @Test
+    public void returnsEmptyListForNonExistentCourse() {
+        List<ParticipantEntity> participants = participantRepository.findByCourseId(999);
 
-		assertThat(participants).isEmpty();
-	}
+        assertThat(participants).isEmpty();
+    }
 
-	@Test
-	public void returnsCourseParticipants() {
-		List<ParticipantEntity> participants = participantRepository.findByCourseId(3);
+    @Test
+    public void returnsCourseParticipants() {
+        List<ParticipantEntity> participants = participantRepository.findByCourseId(3);
 
-		assertThat(participants).hasSize(2);
-		assertThat(participants.get(0).getFirstName()).isEqualTo("Swedish");
-		assertThat(participants.get(0).getLastName()).isEqualTo("Student");
-		assertThat(participants.get(1).getFirstName()).isEqualTo("British");
-		assertThat(participants.get(1).getLastName()).isEqualTo("Student");
-	}
+        assertThat(participants).hasSize(2);
+        assertThat(participants.get(0).getFirstName()).isEqualTo("Swedish");
+        assertThat(participants.get(0).getLastName()).isEqualTo("Student");
+        assertThat(participants.get(1).getFirstName()).isEqualTo("British");
+        assertThat(participants.get(1).getLastName()).isEqualTo("Student");
+    }
 
 }
