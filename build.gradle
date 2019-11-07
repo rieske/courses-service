@@ -79,7 +79,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
     implementation("org.flywaydb:flyway-core")
-    implementation("org.apache.commons:commons-csv:1.4")
+    implementation("org.apache.commons:commons-csv:1.7")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("com.jayway.restassured:spring-mock-mvc:2.9.0")
