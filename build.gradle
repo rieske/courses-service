@@ -91,7 +91,7 @@ dependencies {
     testRuntime("com.h2database:h2")
 
     componentTestImplementation(configurations.implementation)
-    componentTestImplementation("org.assertj:assertj-core:3.4.1")
+    componentTestImplementation("org.assertj:assertj-core:3.14.0")
     componentTestImplementation("org.springframework.boot:spring-boot-starter-test")
     componentTestImplementation("com.jayway.restassured:rest-assured:2.9.0")
     componentTestRuntime("com.h2database:h2")
