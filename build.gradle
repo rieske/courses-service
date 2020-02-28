@@ -3,7 +3,7 @@ plugins {
     id "org.springframework.boot" version "2.2.4.RELEASE"
     id "jacoco"
     id "checkstyle"
-    id "com.github.kt3k.coveralls" version "2.10.0"
+    id "com.github.kt3k.coveralls" version "2.10.1"
 }
 
 java {
